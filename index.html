@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DITTO CONGA</title>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .trust-btn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+            position: relative;
+            z-index: 100;
+        }
+
+        .trust-btn:hover {
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.5);
+        }
+
+        .trust-btn:active {
+            transform: scale(0.95);
+        }
+
+        .video-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 320px;
+            height: 240px;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 50;
+        }
+
+        .video-container.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .video-container.fullscreen {
+            width: 100vw;
+            height: 100vh;
+            max-width: 1500px;
+            max-height: 2000px;
+            transition: all 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .trust-btn {
+                padding: 20px 40px;
+                font-size: 20px;
+                border-radius: 30px;
+            }
+
+            .trust-btn:hover {
+                transform: scale(1.1);
+            }
+
+            .video-container {
+                width: 280px;
+                height: 180px;
+            }
+
+
+        }
+
+        @media (hover: none) {
+            .trust-btn:hover {
+                transform: none;
+            }
+            
+            .trust-btn:active {
+                transform: scale(1.1);
+                transition: transform 0.1s;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+    <button class="trust-btn" id="trustBtn">Trust me</button>
+
+    <div class="video-container" id="videoContainer">
+        <video id="videoPlayer" loop>
+            <source src="Ditto-dancing-Conga.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <script>
+        const trustBtn = document.getElementById('trustBtn');
+        const videoContainer = document.getElementById('videoContainer');
+        const videoPlayer = document.getElementById('videoPlayer');
+
+        trustBtn.addEventListener('click', function() {
+            trustBtn.classList.add('hidden');
+            
+            videoContainer.classList.add('show');
+            
+            videoPlayer.play().catch(e => {
+                console.log('Autoplay failed, will try again');
+            });
+
+            setTimeout(() => {
+                videoContainer.classList.add('fullscreen');
+            }, 1500);
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                videoContainer.classList.remove('show', 'fullscreen');
+                trustBtn.classList.remove('hidden');
+                videoPlayer.pause();
+            }
+        });
+
+        document.addEventListener('touchstart', function() {}, {passive: true});
+        
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, {passive: false});
+
+        window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+            }, 500);
+        });
+    </script>
+</body>
+</html>
